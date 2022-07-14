@@ -15,14 +15,17 @@ public class HomeController : Controller
     }
 
     public async Task<IActionResult> IndexAsync() 
-    { 
+    {
+        //If Alpha is activated
         if(await _featureManager.IsEnabledAsync(nameof(FeatureFlags.Alpha)))
         {
             return Content(_configuration.GetValue<string>("AlphaConfigValue"), "text/plain"); 
         }
 
+        //if no feature is activated
         var source = "code";
 
+        //if Beta feature is activated
         if(await _featureManager.IsEnabledAsync(nameof(FeatureFlags.Beta)))
         {
             source = _configuration.GetValue<string>("BetaConfigValue");
